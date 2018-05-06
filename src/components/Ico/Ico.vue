@@ -272,7 +272,14 @@
       </v-flex>
     </v-layout>
     <template v-else>
-      Nothing found
+      <v-layout justify-center
+                align-center>
+        <div>
+          <div>
+            <b>Nothing found</b>
+          </div>
+        </div>
+      </v-layout>
     </template>
   </v-container>
 </template>

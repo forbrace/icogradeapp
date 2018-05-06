@@ -151,6 +151,14 @@
         </v-flex>
       </v-layout>
     </template>
+    <template v-else-if="!userIsCreator && userIsAuthenticated">
+      <v-layout justify-center
+                align-center>
+        <v-btn to="/">
+          + New Grade
+        </v-btn>
+      </v-layout>
+    </template>
     <template v-else>
       <v-layout justify-center
                 align-center>
@@ -195,8 +203,7 @@
     },
     computed: {
       ico () {
-        console.log(this.$store.getters.loadedIco(this.id).url)
-        return this.$store.getters.loadedIco(this.id)
+        return this.$store.getters.loadedIco(this.id) || {}
       },
       scores () {
         return score({

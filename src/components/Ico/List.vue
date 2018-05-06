@@ -104,9 +104,18 @@
       <v-layout
         justify-center
         align-center>
-
-        <b>No Data Available</b>
-
+        <div>
+          <div v-if="userIsAuthenticated">
+            <v-btn to="/">
+              + New Grade
+            </v-btn>
+          </div>
+          <div v-else>
+            <v-btn @click="signin">
+              Sign In
+            </v-btn>
+          </div>
+        </div>
       </v-layout>
     </template>
   </v-container>
