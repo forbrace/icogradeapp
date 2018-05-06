@@ -1,6 +1,4 @@
-# <a href='//icogradeapp.com' target='_blank'>icogradeapp.com</a>
-
-Vuejs + Vuetify + Firebase application that allows you to grade ICO based on token metrics methodology.
+# ICO Grade App
 
 > A Vue.js project
 
