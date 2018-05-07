@@ -122,8 +122,6 @@
 </template>
 
 <script>
-  import grade from './calc/grade'
-
   export default {
     name: 'icoList',
     data () {
@@ -132,18 +130,18 @@
         cryptoMarketCap: '',
         headers: [
           {text: 'Name', value: 'name'},
-          {text: 'ICO Grade', value: 'grade', align: 'right'},
+          {text: 'ICO Grade, %', value: 'grade', align: 'right'},
           {text: 'Date', value: 'date'},
-          {text: 'Price', value: 'price', align: 'right'},
+          {text: 'Price, USD', value: 'price', align: 'right'},
           {text: '# of tokens', value: 'numberOfICOTokens', align: 'right'},
           {text: 'Total # of tokens', value: 'totalNumberOfTokens', align: 'right'},
-          {text: 'Total supply', value: 'totalSupply', align: 'right'},
-          {text: 'ICO market cap', value: 'icoMarketCap', align: 'right'},
-          {text: 'Crypto market cap', value: 'cryptoMarketCap', align: 'right'},
+          {text: 'Total supply, %', value: 'totalSupply', align: 'right'},
+          {text: 'ICO market cap, USD', value: 'icoMarketCap', align: 'right'},
+          {text: 'Crypto market cap, USD', value: 'cryptoMarketCap', align: 'right'},
           {text: 'Prototype', value: 'appPrototype', align: 'center'},
-          {text: 'Team', value: 'team'},
-          {text: 'Advisers', value: 'advisers'},
-          {text: 'Idea', value: 'idea'},
+          {text: 'Team, 4pt.', value: 'team'},
+          {text: 'Advisers, 2pt.', value: 'advisers'},
+          {text: 'Idea, 3pt.', value: 'idea'},
           {text: 'Community', value: 'community', align: 'right'},
           {text: 'Type', value: 'type'},
           {text: 'Actions', value: 'name', sortable: false}
@@ -158,22 +156,16 @@
     },
     created () {
       this.getCryptoMarketCap()
-      this.calculateGrade()
     },
     mounted () {
     },
     computed: {
       icos () {
-        // TODO: load only user's icos
         let gradedIcos = this.$store.getters.loadedIcos
         if (this.user) {
-          for (let ico of gradedIcos) {
-            ico.grade = grade(ico) || null
-          }
           gradedIcos = gradedIcos.filter((ico) => {
             return ico.creatorId === this.user.uid
           })
-          // console.log(gradedIcos[0].grade)
         }
         return gradedIcos
       },
@@ -202,13 +194,6 @@
         }, response => {
           console.log(response)
         })
-      },
-      calculateGrade () {
-        let gradedIcos = this.$store.getters.loadedIcos
-        for (let ico of gradedIcos) {
-          ico.grade = grade(ico)
-        }
-        return gradedIcos
       },
       edit (ico) {
         this.$router.push(`edit/${ico.id}`)

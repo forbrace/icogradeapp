@@ -86,6 +86,7 @@ export default {
       commit('setLoading', true)
       const ico = {
         name: payload.name,
+        grade: payload.grade,
         url: payload.url,
         price: payload.price,
         numberOfICOTokens: payload.numberOfICOTokens,

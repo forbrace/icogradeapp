@@ -19,7 +19,7 @@
                 <v-flex>
                   <div class="title">
                     <span>
-                      <span class="blue-grey--text">ICO Grade</span> <span class="display-2">{{ grade }}%</span>
+                      <span class="blue-grey--text">ICO Grade</span> <span class="display-2">{{ ico.grade }}%</span>
                     </span>
                   </div>
                 </v-flex>
@@ -55,7 +55,7 @@
               <v-layout row wrap>
                 <v-flex sm4 xs12>
                   <div class="subheader pa-0">
-                    Date
+                    URL
                   </div>
                 </v-flex>
                 <v-flex sm8 xs12>
@@ -72,7 +72,7 @@
               <v-layout row wrap>
                 <v-flex sm4 xs12>
                   <div class="subheader pa-0">
-                    Price
+                    Price, USD
                   </div>
                 </v-flex>
                 <v-flex sm8 xs12>
@@ -117,7 +117,7 @@
               <v-layout row wrap>
                 <v-flex sm4 xs12>
                   <div class="subheader pa-0">
-                    Total Supply
+                    Total Supply, %
                   </div>
                 </v-flex>
                 <v-flex sm8 xs12>
@@ -132,7 +132,7 @@
               <v-layout row wrap>
                 <v-flex sm4 xs12>
                   <div class="subheader pa-0">
-                    ICO Market Cap
+                    ICO Market Cap, USD
                   </div>
                 </v-flex>
                 <v-flex sm8 xs12>
@@ -147,7 +147,7 @@
               <v-layout row wrap>
                 <v-flex sm4 xs12>
                   <div class="subheader pa-0">
-                    Crypto Market Cap
+                    Crypto Market Cap, USD
                   </div>
                 </v-flex>
                 <v-flex sm8 xs12>
@@ -177,7 +177,7 @@
               <v-layout row wrap>
                 <v-flex sm4 xs12>
                   <div class="subheader pa-0">
-                    Team
+                    Team, 4pt. max
                   </div>
                 </v-flex>
                 <v-flex sm8 xs12>
@@ -201,7 +201,7 @@
               <v-layout row wrap>
                 <v-flex sm4 xs12>
                   <div class="subheader pa-0">
-                    Advisers
+                    Advisers, 2pt. max
                   </div>
                 </v-flex>
                 <v-flex sm8 xs12>
@@ -223,7 +223,7 @@
               <v-layout row wrap>
                 <v-flex sm4 xs12>
                   <div class="subheader pa-0">
-                    Idea
+                    Idea, 3pt. max
                   </div>
                 </v-flex>
                 <v-flex sm8 xs12>
@@ -290,8 +290,6 @@
 </template>
 
 <script>
-  import grade from './calc/grade'
-
   export default {
     name: 'ico',
     props: ['id'],
@@ -301,17 +299,11 @@
       }
     },
     created () {
-      // this.$store.dispatch('loadIco', )
       this.getCryptoMarketCap()
     },
     computed: {
       ico () {
-        let gradedIco = this.$store.getters.loadedIco(this.id)
-        if (gradedIco) {
-          gradedIco.grade = grade(gradedIco)
-          return gradedIco
-        }
-        return null
+        return this.$store.getters.loadedIco(this.id)
       },
       loading () {
         return this.$store.getters.loading
@@ -324,9 +316,6 @@
           return false
         }
         return this.$store.getters.user.uid === this.ico.creatorId
-      },
-      grade () {
-        return grade(this.ico)
       }
     },
     methods: {

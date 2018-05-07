@@ -280,7 +280,7 @@
         const ico = {
           name: this.ico.name,
           url: this.ico.url,
-          grade: this.ico.grade,
+          grade: this.grade,
           price: this.ico.price,
           numberOfICOTokens: this.ico.numberOfICOTokens,
           totalNumberOfTokens: this.ico.totalNumberOfTokens,
