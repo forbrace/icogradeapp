@@ -117,6 +117,7 @@
               <v-flex sm5 xs12 grade>
                 <v-card class="mb-3">
                   <v-card-text>
+                    <div class="caption blue-grey--text">ICO GRADE</div>
                     <div class="display-3">{{ grade }}%</div>
                   </v-card-text>
                 </v-card>

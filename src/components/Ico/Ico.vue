@@ -6,22 +6,31 @@
     </v-layout>
   </v-container>
   <v-container fluid fill-height v-else>
-    <v-layout row v-if="ico" class="mb-2">
+    <v-layout row v-if="ico">
       <v-flex lg6 offset-lg3 md8 offset-md2 sm10 offset-sm1>
         <v-card>
           <v-card-title primary-title>
-            <v-layout row wrap>
-              <v-flex sm7 xs12>
-                <h3 class="headline mb-0">{{ico.name}}</h3>
-              </v-flex>
-              <v-spacer></v-spacer>
-              <v-flex text-sm-right sm5 xs12>
-                <div class="headline">
-                  ICO Grade {{ grade }}%
-                </div>
-              </v-flex>
-            </v-layout>
             <div>
+              <h3 class="display-2">{{ico.name}}</h3>
+            </div>
+            <v-spacer></v-spacer>
+            <div>
+              <v-layout align-center wrap>
+                <v-flex>
+                  <div class="title">
+                    <span>
+                      <span class="blue-grey--text">ICO Grade</span> <span class="display-2">{{ grade }}%</span>
+                    </span>
+                  </div>
+                </v-flex>
+                <v-flex>
+                  <v-card-actions v-if="userIsCreator">
+                    <v-btn color="primary" fab small dark @click="edit">
+                      <v-icon>edit</v-icon>
+                    </v-btn>
+                  </v-card-actions>
+                </v-flex>
+              </v-layout>
             </div>
           </v-card-title>
           <v-card-text>
@@ -263,11 +272,7 @@
             </template>
 
           </v-card-text>
-          <v-card-actions v-if="userIsCreator">
-            <v-btn flat color="blue" @click="edit">
-              Edit
-            </v-btn>
-          </v-card-actions>
+          
         </v-card>
       </v-flex>
     </v-layout>

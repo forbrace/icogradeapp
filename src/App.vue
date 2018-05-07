@@ -96,7 +96,7 @@
 
 
     </v-content>
-    <v-footer color="light-blue darken-1" app class="pa-4">
+    <v-footer color="light-blue darken-1" app class="px-4">
       <v-spacer></v-spacer>
       <span class="white--text">IcoGradeApp &copy; {{ new Date().getFullYear() }}</span>
     </v-footer>

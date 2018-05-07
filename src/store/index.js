@@ -89,18 +89,19 @@ export const store = new Vuex.Store({
                 creatorId: obj[key].creatorId
               })
             }
-            // icos.filter((ico) => ico.creatorId === getters.user.uid)
-            commit('setLoadedIcos', icos)
+            commit('setLoadedIcos', icos.filter(ico => ico.creatorId === getters.user.uid))
             commit('setLoading', false)
           }
         )
         .catch(
           error => {
             console.log(error)
+            commit('setLoading', false)
           }
         )
     },
     createIco ({commit, getters}, payload) {
+      commit('setLoading', true)
       const ico = {
         name: payload.name,
         url: payload.url,
@@ -121,6 +122,7 @@ export const store = new Vuex.Store({
       firebase.database().ref('icos').push(ico)
         .then(
           data => {
+            commit('setLoading', false)
             const key = data.key
             commit('createIco', {
               ...ico,
@@ -130,6 +132,7 @@ export const store = new Vuex.Store({
         )
         .catch(
           error => {
+            commit('setLoading', false)
             console.log(error)
           }
         )
