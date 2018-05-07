@@ -122,7 +122,7 @@
                 </v-flex>
                 <v-flex sm8 xs12>
                   <div class="subheader pa-0 black--text">
-                    {{ ico.totalSupply }}
+                    {{ ico.totalSupply }}%
                   </div>
                 </v-flex>
               </v-layout>
