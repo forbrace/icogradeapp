@@ -55,7 +55,7 @@
               <td class="text-xs-center">{{ props.item.appPrototype ? 'Yes' : 'No' }}</td>
               <td>
                 <v-flex style="white-space: nowrap">
-                  <v-icon size="16" color="orange"
+                  <v-icon size="16" color="warning"
                           v-for="star in props.item.team" :key="'o' + star">
                     star
                   </v-icon>
@@ -67,7 +67,7 @@
               </td>
               <td>
                 <v-flex style="white-space: nowrap">
-                  <v-icon size="16" color="orange"
+                  <v-icon size="16" color="warning"
                           v-for="star in props.item.advisers" :key="'o' + star">star
                   </v-icon>
                   <v-icon size="16" color="blue-grey lighten-3"
@@ -77,7 +77,7 @@
               </td>
               <td>
                 <v-flex style="white-space: nowrap">
-                  <v-icon size="16" color="orange"
+                  <v-icon size="16" color="warning"
                           v-for="star in props.item.idea" :key="'o' + star">star
                   </v-icon>
                   <v-icon size="16" color="blue-grey lighten-3"
@@ -89,10 +89,10 @@
               <td>{{ props.item.type }}</td>
               <td class="justify-center layout px-0">
                 <v-btn icon class="mx-0" @click="edit(props.item)" v-if="userIsCreator">
-                  <v-icon color="blue">edit</v-icon>
+                  <v-icon color="indigo">edit</v-icon>
                 </v-btn>
                 <v-btn icon class="mx-0" @click="confirmDelete(props.item)" v-if="userIsCreator">
-                  <v-icon color="pink">delete</v-icon>
+                  <v-icon color="error">delete</v-icon>
                 </v-btn>
               </td>
             </template>
@@ -139,9 +139,9 @@
           {text: 'ICO market cap, USD', value: 'icoMarketCap', align: 'right'},
           {text: 'Crypto market cap, USD', value: 'cryptoMarketCap', align: 'right'},
           {text: 'Prototype', value: 'appPrototype', align: 'center'},
-          {text: 'Team, 4pt.', value: 'team'},
-          {text: 'Advisers, 2pt.', value: 'advisers'},
-          {text: 'Idea, 3pt.', value: 'idea'},
+          {text: 'Team', value: 'team'},
+          {text: 'Advisers', value: 'advisers'},
+          {text: 'Idea', value: 'idea'},
           {text: 'Community', value: 'community', align: 'right'},
           {text: 'Type', value: 'type'},
           {text: 'Actions', value: 'name', sortable: false}

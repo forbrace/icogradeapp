@@ -6465,6 +6465,14 @@ vm-browserify@0.0.4:
   dependencies:
     indexof "0.0.1"
 
+vue-analytics@^5.10.4:
+  version "5.10.4"
+  resolved "https://registry.yarnpkg.com/vue-analytics/-/vue-analytics-5.10.4.tgz#fb812b71e6136c0b9aa4ebe00f5928167f410e4c"
+
+vue-disqus@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/vue-disqus/-/vue-disqus-3.0.1.tgz#7a1c3a41db7e1d246755919d4da3291a26f38f0a"
+
 vue-hot-reload-api@^2.2.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/vue-hot-reload-api/-/vue-hot-reload-api-2.3.0.tgz#97976142405d13d8efae154749e88c4e358cf926"

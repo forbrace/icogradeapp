@@ -41,7 +41,7 @@
 
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar color="light-blue darken-1" dark app>
+    <v-toolbar color="indigo" dark app>
       <v-toolbar-side-icon @click.native.stop="drawer = !drawer" class="hidden-sm-and-up"></v-toolbar-side-icon>
       <v-toolbar-title>
         <router-link to="/" tag="span" style="cursor: pointer">
@@ -96,7 +96,7 @@
 
 
     </v-content>
-    <v-footer color="light-blue darken-1" app class="px-4">
+    <v-footer color="indigo" app class="px-4">
       <v-spacer></v-spacer>
       <span class="white--text">IcoGradeApp &copy; {{ new Date().getFullYear() }}</span>
     </v-footer>

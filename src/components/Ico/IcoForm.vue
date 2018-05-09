@@ -3,62 +3,62 @@
     <v-text-field
       name="name"
       label="ICO Name"
+      v-model="ico.name"
+      :rules="[() => !!ico.name || '']"
       placeholder="ICO Name"
-      v-model="name"
-      :rules="[() => !!name || '']"
-      required
     />
     <v-text-field
       name="url"
       label="URL"
-      v-model="url"
-      placeholder="https://ico.com"
+      v-model="ico.url"
+      type="url"
       hint="https://ico.com"
+      placeholder="https://ico.com"
     />
     <v-text-field
       name="price"
       label="Token price (USD)"
-      placeholder="0.04"
-      v-model="price"
+      v-model="ico.price"
       hint="Ex. 0.04"
       prefix="$"
+      placeholder="0.04"
     />
     <v-text-field
       name="numberOfICOTokens"
       label="# of tokens"
-      v-model="numberOfICOTokens"
+      v-model="ico.numberOfICOTokens"
       placeholder="390000000"
     />
     <v-text-field
       name="totalNumberOfTokens"
       label="Total # of tokens"
-      v-model="totalNumberOfTokens"
+      v-model="ico.totalNumberOfTokens"
       placeholder="1500000000"
     />
     <v-text-field
       name="totalSupply"
       label="Total supply"
-      v-model="totalSupply"
+      v-model="ico.totalSupply"
       prefix="%"
       placeholder="26"
     />
     <v-text-field
       name="icoMarketCap"
       label="ICO market cap (USD)"
-      v-model="icoMarketCap"
+      v-model="ico.icoMarketCap"
       prefix="$"
       placeholder="30000000"
     />
     <v-flex>
       <v-switch
-        :label="`Prototype: ${appPrototype ? 'Yes' : 'No'}`"
-        v-model="appPrototype"
+        :label="`Prototype: ${ico.appPrototype ? 'Yes' : 'No'}`"
+        v-model="ico.appPrototype"
       />
     </v-flex>
     <v-flex>
       <v-select
         :items="teamGrades"
-        v-model="team"
+        v-model="ico.team"
         label="Team"
         hint="Team"
         single-line
@@ -67,7 +67,7 @@
     <v-flex>
       <v-select
         :items="advisersGrades"
-        v-model="advisers"
+        v-model="ico.advisers"
         label="Advisers"
         hint="Advisers"
         single-line
@@ -76,7 +76,7 @@
     <v-flex>
       <v-select
         :items="ideaGrades"
-        v-model="idea"
+        v-model="ico.idea"
         label="Idea"
         hint="Idea"
         single-line
@@ -85,18 +85,24 @@
     <v-text-field
       name="community"
       label="Community"
-      v-model="community"
+      v-model="ico.community"
       placeholder="10000"
     />
     <v-flex>
       <v-select
         :items="types"
-        v-model="type"
+        v-model="ico.type"
         label="Type"
         single-line
       />
     </v-flex>
     <v-btn class="mx-0" color="primary" :disabled="!formIsValid() || loading" type="submit"
+           v-if="isEdit"
+           :loading="loading">
+      Update
+    </v-btn>
+    <v-btn class="mx-0" color="primary" :disabled="!formIsValid() || loading" type="submit"
+           v-else
            :loading="loading">
       Save
     </v-btn>
@@ -111,6 +117,23 @@
     name: 'ico-form',
     data () {
       return {
+        ico: {
+          date: '',
+          name: '',
+          url: '',
+          price: '',
+          numberOfICOTokens: '',
+          totalNumberOfTokens: '',
+          totalSupply: '',
+          icoMarketCap: '',
+          cryptoMarketCap: '',
+          appPrototype: false,
+          team: '',
+          advisers: '',
+          idea: '',
+          community: '',
+          type: ''
+        },
         teamGrades: [
           {value: 1, text: '★'},
           {value: 2, text: '★★'},
@@ -129,64 +152,67 @@
         types: ['Blockchain', 'Infrastructure', 'Application']
       }
     },
-    props: [
-      'name',
-      'url',
-      'price',
-      'numberOfICOTokens',
-      'totalNumberOfTokens',
-      'totalSupply',
-      'icoMarketCap',
-      'appPrototype',
-      'teamGrades',
-      'team',
-      'advisersGrades',
-      'advisers',
-      'ideaGrades',
-      'idea',
-      'community',
-      'type',
-      'loading'
-    ],
+    props: {
+      gradeChange: Function,
+      icoId: String,
+      isEdit: {
+        type: Boolean,
+        default: false
+      }
+    },
+    created () {
+      if (this.icoId) {
+        const ico = this.$store.getters.loadedIco(this.icoId)
+        Object.assign(this.ico, ico)
+      }
+    },
+    watch: {
+      grade (val) {
+        return this.$emit('gradeChange', val)
+      }
+    },
     computed: {
+      grade () {
+        return this.calculateGrade()
+      },
       loading () {
         return this.$store.getters.loading
+      },
+      scores () {
+        let ico = Object.assign({}, this.ico)
+        return score(ico)
+      },
+      user () {
+        return this.$store.getters.user
       }
     },
     methods: {
+      calculateGrade () {
+        let ico = Object.assign({}, this.scores)
+        return calc(ico)
+      },
       formIsValid () {
-        return !!this.name
+        return !!this.ico.name
       },
       onSubmit () {
         if (!this.formIsValid) {
           return
         }
-        const ico = {
-          name: this.name,
-          url: this.url,
-          grade: this.grade,
-          price: this.price,
-          numberOfICOTokens: this.numberOfICOTokens,
-          totalNumberOfTokens: this.totalNumberOfTokens,
-          totalSupply: this.totalSupply,
-          icoMarketCap: this.icoMarketCap,
-          appPrototype: this.appPrototype,
-          team: this.team,
-          advisers: this.advisers,
-          idea: this.idea,
-          community: this.community,
-          type: this.type,
-          date: (new Date()).toUTCString()
-        }
+        const ico = Object.assign({}, this.ico)
+        ico.date = (new Date()).toUTCString()
+        ico.grade = this.grade
+        if (this.icoId) ico.id = this.icoId
         if (this.user) {
-          this.$store.dispatch('createIco', ico)
-          this.$router.push('/icos')
+          this.commit(ico)
         } else {
           this.$store.dispatch('googleSignInAsync').then(() => {
-            this.$store.dispatch('createIco', ico)
-            this.$router.push('/icos')
+            this.commit(ico)
           })
         }
+      },
+      commit (ico) {
+        this.$store.dispatch(this.icoId ? 'updateIco' : 'createIco', ico)
+        this.$router.push('/icos')
       }
     }
   }

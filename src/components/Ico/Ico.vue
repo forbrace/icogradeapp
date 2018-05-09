@@ -11,35 +11,67 @@
         <v-card>
           <v-card-title primary-title>
             <div>
-              <h3 class="display-2">{{ico.name}}</h3>
+              <h3 class="display-2 primary--text">{{ico.name}}</h3>
             </div>
             <v-spacer></v-spacer>
             <div>
               <v-layout align-center wrap>
                 <v-flex>
-                  <div class="title">
-                    <span>
-                      <span class="blue-grey--text">ICO Grade</span> <span class="display-2">{{ ico.grade }}%</span>
-                    </span>
-                  </div>
-                </v-flex>
-                <v-flex>
-                  <v-card-actions v-if="userIsCreator">
-                    <v-btn color="primary" fab small dark @click="edit">
-                      <v-icon>edit</v-icon>
+                  <v-menu bottom left min-width="130" v-if="userIsCreator">
+                    <v-btn slot="activator" icon dark>
+                      <v-icon color="blue-grey">more_vert</v-icon>
                     </v-btn>
-                  </v-card-actions>
+                    <v-list>
+                      <v-list-tile @click="edit">
+                        <v-list-tile-title class="indigo--text">
+                          <v-layout align-center>
+                            <div class="mr-2">
+                              <v-icon color="indigo">edit</v-icon>
+                            </div>
+                            <div>
+                              Edit
+                            </div>
+                          </v-layout>
+                        </v-list-tile-title>
+                      </v-list-tile>
+                      <v-list-tile @click="dialog = true">
+                        <v-list-tile-title class="error--text">
+                          <v-layout align-center>
+                            <div class="mr-2">
+                              <v-icon color="error">delete</v-icon>
+                            </div>
+                            <div>
+                              Delete
+                            </div>
+                          </v-layout>
+                        </v-list-tile-title>
+                      </v-list-tile>
+                    </v-list>
+                  </v-menu>
                 </v-flex>
               </v-layout>
             </div>
           </v-card-title>
           <v-card-text>
 
+            <v-layout row wrap>
+              <v-flex sm4 xs12>
+                <div class="subheader blue-grey--text pa-0">
+                  ICO Grade
+                </div>
+              </v-flex>
+              <v-flex sm8 xs12>
+                <div class="title">
+                  <span class="display-1">{{ ico.grade }}%</span>
+                </div>
+              </v-flex>
+            </v-layout>
+
             <template v-if="ico.date">
               <v-divider class="my-0"></v-divider>
               <v-layout row wrap>
                 <v-flex sm4 xs12>
-                  <div class="subheader pa-0">
+                  <div class="subheader blue-grey--text pa-0">
                     Date
                   </div>
                 </v-flex>
@@ -54,7 +86,7 @@
               <v-divider class="my-0"></v-divider>
               <v-layout row wrap>
                 <v-flex sm4 xs12>
-                  <div class="subheader pa-0">
+                  <div class="subheader blue-grey--text pa-0">
                     URL
                   </div>
                 </v-flex>
@@ -71,7 +103,7 @@
               <v-divider class="my-0"></v-divider>
               <v-layout row wrap>
                 <v-flex sm4 xs12>
-                  <div class="subheader pa-0">
+                  <div class="subheader blue-grey--text pa-0">
                     Price, USD
                   </div>
                 </v-flex>
@@ -86,7 +118,7 @@
               <v-divider class="my-0"></v-divider>
               <v-layout row wrap>
                 <v-flex sm4 xs12>
-                  <div class="subheader pa-0">
+                  <div class="subheader blue-grey--text pa-0">
                     Number Of ICO Tokens
                   </div>
                 </v-flex>
@@ -101,7 +133,7 @@
               <v-divider class="my-0"></v-divider>
               <v-layout row wrap>
                 <v-flex sm4 xs12>
-                  <div class="subheader pa-0">
+                  <div class="subheader blue-grey--text pa-0">
                     Total Number Of Tokens
                   </div>
                 </v-flex>
@@ -116,7 +148,7 @@
               <v-divider class="my-0"></v-divider>
               <v-layout row wrap>
                 <v-flex sm4 xs12>
-                  <div class="subheader pa-0">
+                  <div class="subheader blue-grey--text pa-0">
                     Total Supply, %
                   </div>
                 </v-flex>
@@ -131,7 +163,7 @@
               <v-divider class="my-0"></v-divider>
               <v-layout row wrap>
                 <v-flex sm4 xs12>
-                  <div class="subheader pa-0">
+                  <div class="subheader blue-grey--text pa-0">
                     ICO Market Cap, USD
                   </div>
                 </v-flex>
@@ -146,7 +178,7 @@
               <v-divider class="my-0"></v-divider>
               <v-layout row wrap>
                 <v-flex sm4 xs12>
-                  <div class="subheader pa-0">
+                  <div class="subheader blue-grey--text pa-0">
                     Crypto Market Cap, USD
                   </div>
                 </v-flex>
@@ -161,7 +193,7 @@
               <v-divider class="my-0"></v-divider>
               <v-layout row wrap>
                 <v-flex sm4 xs12>
-                  <div class="subheader pa-0">
+                  <div class="subheader blue-grey--text pa-0">
                     Prototype
                   </div>
                 </v-flex>
@@ -176,14 +208,14 @@
               <v-divider class="my-0"></v-divider>
               <v-layout row wrap>
                 <v-flex sm4 xs12>
-                  <div class="subheader pa-0">
-                    Team, 4pt. max
+                  <div class="subheader blue-grey--text pa-0">
+                    Team
                   </div>
                 </v-flex>
                 <v-flex sm8 xs12>
                   <div class="subheader pa-0 black--text">
                     <div style="white-space: nowrap">
-                      <v-icon size="16" color="orange"
+                      <v-icon size="16" color="warning"
                               v-for="star in ico.team" :key="'o' + star">
                         star
                       </v-icon>
@@ -200,14 +232,14 @@
               <v-divider class="my-0"></v-divider>
               <v-layout row wrap>
                 <v-flex sm4 xs12>
-                  <div class="subheader pa-0">
-                    Advisers, 2pt. max
+                  <div class="subheader blue-grey--text pa-0">
+                    Advisers
                   </div>
                 </v-flex>
                 <v-flex sm8 xs12>
                   <div class="subheader pa-0 black--text">
                     <div style="white-space: nowrap">
-                      <v-icon size="16" color="orange"
+                      <v-icon size="16" color="warning"
                               v-for="star in ico.advisers" :key="'o' + star">star
                       </v-icon>
                       <v-icon size="16" color="blue-grey lighten-3"
@@ -222,14 +254,14 @@
               <v-divider class="my-0"></v-divider>
               <v-layout row wrap>
                 <v-flex sm4 xs12>
-                  <div class="subheader pa-0">
-                    Idea, 3pt. max
+                  <div class="subheader blue-grey--text pa-0">
+                    Idea
                   </div>
                 </v-flex>
                 <v-flex sm8 xs12>
                   <div class="subheader pa-0 black--text">
                     <div style="white-space: nowrap">
-                      <v-icon size="16" color="orange"
+                      <v-icon size="16" color="warning"
                               v-for="star in ico.idea" :key="'o' + star">star
                       </v-icon>
                       <v-icon size="16" color="blue-grey lighten-3"
@@ -244,7 +276,7 @@
               <v-divider class="my-0"></v-divider>
               <v-layout row wrap>
                 <v-flex sm4 xs12>
-                  <div class="subheader pa-0">
+                  <div class="subheader blue-grey--text pa-0">
                     Community
                   </div>
                 </v-flex>
@@ -259,7 +291,7 @@
               <v-divider class="my-0"></v-divider>
               <v-layout row wrap>
                 <v-flex sm4 xs12>
-                  <div class="subheader pa-0">
+                  <div class="subheader blue-grey--text pa-0">
                     Type
                   </div>
                 </v-flex>
@@ -272,8 +304,9 @@
             </template>
 
           </v-card-text>
-          
+
         </v-card>
+
       </v-flex>
     </v-layout>
     <template v-else>
@@ -286,6 +319,23 @@
         </div>
       </v-layout>
     </template>
+
+    <v-dialog v-model="dialog" max-width="500px">
+      <v-card>
+        <v-card-title>
+          <span class="headline">Delete</span>
+        </v-card-title>
+        <v-card-text>
+          Are you sure you want to delete this ICO?
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer/>
+          <v-btn color="blue darken-1" flat @click.native="dialog = false">Cancel</v-btn>
+          <v-btn color="error darken-1" flat @click.native="deleteIco">Delete</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
   </v-container>
 </template>
 
@@ -295,6 +345,7 @@
     props: ['id'],
     data () {
       return {
+        dialog: false,
         cryptoMarketCap: ''
       }
     },
@@ -328,6 +379,11 @@
       },
       edit () {
         this.$router.push(`/edit/${this.id}`)
+      },
+      deleteIco () {
+        this.dialog = false
+        this.$store.dispatch('deleteIco', this.ico)
+        this.$router.push('/icos')
       }
     }
   }

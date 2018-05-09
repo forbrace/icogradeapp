@@ -156,7 +156,7 @@ export default {
       return (icoId) => {
         return state.loadedIcos.find((ico) => {
           return ico.id === icoId
-        })
+        }) || {}
       }
     }
   }
