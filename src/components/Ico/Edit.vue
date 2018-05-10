@@ -6,31 +6,33 @@
       <v-progress-circular indeterminate color="primary"/>
     </v-layout>
   </v-container>
-  <v-container fluid fill-height v-else>
+  <v-container fluid grid-list-md v-else>
     <template v-if="userIsCreator">
       <v-layout row>
         <v-flex xs12>
 
           <v-layout row>
             <v-flex lg6 offset-lg3 md8 offset-md2 sm10 offset-sm1>
+
               <v-layout row wrap>
                 <v-flex sm7 xs12>
-                  
-                  <v-breadcrumbs>
-                    <v-icon slot="divider">chevron_right</v-icon>
-                    <v-breadcrumbs-item to="/icos">
-                      My ICO’s
-                    </v-breadcrumbs-item>
-                    <v-breadcrumbs-item disabled>
-                      {{ ico.name }}
-                    </v-breadcrumbs-item>
-                  </v-breadcrumbs>
-                  
-                  <v-card-text>
-                    
-                    <ico-form @gradeChange="grade = $event" :ico-id="id"/>
 
-                  </v-card-text>
+                  <v-card>
+                    <v-breadcrumbs class="pb-0">
+                      <v-icon slot="divider">chevron_right</v-icon>
+                      <v-breadcrumbs-item to="/icos">
+                        My ICO’s
+                      </v-breadcrumbs-item>
+                      <v-breadcrumbs-item disabled>
+                        {{ ico.name }}
+                      </v-breadcrumbs-item>
+                    </v-breadcrumbs>
+                    <v-card-text>
+                      <ico-form @gradeChange="grade = $event" :ico-id="id"/>
+                    </v-card-text>
+                  </v-card>
+
+
                 </v-flex>
                 <v-flex sm5 xs12 grade>
                   <v-card class="mb-3">
@@ -40,14 +42,14 @@
                     </v-card-text>
                   </v-card>
                   <v-flex>
-                    Crypto Market Cap {{ cryptoMarketCap | price }}
+                    <span class="blue-grey--text">Crypto Market Cap</span> <b>{{ cryptoMarketCap | price }}</b>
                   </v-flex>
                 </v-flex>
               </v-layout>
 
             </v-flex>
           </v-layout>
-          
+
         </v-flex>
       </v-layout>
     </template>
@@ -72,7 +74,7 @@
 
 <script>
   import IcoForm from './IcoForm'
-  
+
   export default {
     name: 'edit-ico',
     props: ['id'],
@@ -132,7 +134,7 @@
   .grade {
     position: -webkit-sticky;
     position: sticky;
-    top: 80px;
+    top: 68px;
     align-self: start;
   }
 

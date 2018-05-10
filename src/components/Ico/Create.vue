@@ -1,18 +1,18 @@
 <template>
-  <v-container fluid  grid-list-md>
+  <v-container fluid grid-list-md>
     <v-layout row>
       <v-flex xs12>
-        
+
         <v-layout row>
           <v-flex lg6 offset-lg3 md8 offset-md2 sm10 offset-sm1>
 
             <v-layout row wrap>
               <v-flex sm7 xs12>
-                <v-card-text>
-                  
-                  <ico-form @gradeChange="grade = $event"/>
-
-                </v-card-text>
+                <v-card>
+                  <v-card-text>
+                    <ico-form @gradeChange="grade = $event"/>
+                  </v-card-text>
+                </v-card>
               </v-flex>
               <v-flex sm5 xs12 grade>
                 <v-card class="mb-3">
@@ -22,14 +22,14 @@
                   </v-card-text>
                 </v-card>
 
-                Crypto Market Cap {{ cryptoMarketCap | price }}
-                
+                <span class="blue-grey--text">Crypto Market Cap</span> <b>{{ cryptoMarketCap | price }}</b>
+
               </v-flex>
             </v-layout>
 
           </v-flex>
         </v-layout>
-        
+
       </v-flex>
     </v-layout>
   </v-container>
@@ -45,6 +45,7 @@
     },
     data () {
       return {
+        cryptoMarketCap: '',
         grade: 0
       }
     },
@@ -75,7 +76,7 @@
   .grade {
     position: -webkit-sticky;
     position: sticky;
-    top: 80px;
+    top: 68px;
     align-self: start;
   }
 

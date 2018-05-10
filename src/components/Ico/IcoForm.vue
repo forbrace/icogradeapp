@@ -49,64 +49,55 @@
       prefix="$"
       placeholder="30000000"
     />
-    <v-flex>
-      <v-switch
-        :label="`Prototype: ${ico.appPrototype ? 'Yes' : 'No'}`"
-        v-model="ico.appPrototype"
-      />
-    </v-flex>
-    <v-flex>
-      <v-select
-        :items="teamGrades"
-        v-model="ico.team"
-        label="Team"
-        hint="Team"
-        single-line
-      />
-    </v-flex>
-    <v-flex>
-      <v-select
-        :items="advisersGrades"
-        v-model="ico.advisers"
-        label="Advisers"
-        hint="Advisers"
-        single-line
-      />
-    </v-flex>
-    <v-flex>
-      <v-select
-        :items="ideaGrades"
-        v-model="ico.idea"
-        label="Idea"
-        hint="Idea"
-        single-line
-      />
-    </v-flex>
+    <v-switch
+      :label="`Prototype: ${ico.appPrototype ? 'Yes' : 'No'}`"
+      v-model="ico.appPrototype"
+    />
+    <v-select
+      :items="teamGrades"
+      v-model="ico.team"
+      label="Team"
+      hint="Team"
+      single-line
+    />
+    <v-select
+      :items="advisersGrades"
+      v-model="ico.advisers"
+      label="Advisers"
+      hint="Advisers"
+      single-line
+    />
+    <v-select
+      :items="ideaGrades"
+      v-model="ico.idea"
+      label="Idea"
+      hint="Idea"
+      single-line
+    />
     <v-text-field
       name="community"
       label="Community"
       v-model="ico.community"
       placeholder="10000"
     />
-    <v-flex>
-      <v-select
-        :items="types"
-        v-model="ico.type"
-        label="Type"
-        single-line
-      />
-    </v-flex>
-    <v-btn class="mx-0" color="primary" :disabled="!formIsValid() || loading" type="submit"
+    <v-select
+      :items="types"
+      v-model="ico.type"
+      label="Type"
+      single-line
+    />
+    <v-btn class="mx-0" block color="primary" :disabled="!formIsValid() || loading" type="submit"
            v-if="isEdit"
            :loading="loading">
       Update
     </v-btn>
-    <v-btn class="mx-0" color="primary" :disabled="!formIsValid() || loading" type="submit"
+    <v-btn class="mx-0" block color="primary" :disabled="!formIsValid() || loading" type="submit"
            v-else
            :loading="loading">
       Save
     </v-btn>
   </form>
+
 </template>
 
 <script>
@@ -168,7 +159,7 @@
     },
     watch: {
       grade (val) {
-        return this.$emit('gradeChange', val)
+        this.$emit('gradeChange', val)
       }
     },
     computed: {

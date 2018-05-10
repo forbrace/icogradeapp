@@ -14,10 +14,10 @@
           <v-dialog v-model="dialog" max-width="500px">
             <v-card>
               <v-card-title>
-                <span class="headline">Delete</span>
+                <span class="headline">Delete {{deletedIco.name}}</span>
               </v-card-title>
               <v-card-text>
-                Are you sure you want to delete this ICO?
+                <span>You cannot undo this this action.</span>
               </v-card-text>
               <v-card-actions>
                 <v-spacer/>
@@ -27,76 +27,98 @@
             </v-card>
           </v-dialog>
 
-          <v-data-table
-            :headers="headers"
-            :items="icos"
-            hide-actions
-            class="elevation-1">
-            <template slot="items" slot-scope="props">
-              <td>
-                <router-link :to="`/icos/${props.item.id}`">
-                  {{ props.item.name }}
-                </router-link>
-              </td>
-              <td class="text-xs-right">
-                <template v-if="props.item.grade">
-                  <b>{{ props.item.grade }}%</b>
-                </template>
-              </td>
-              <td style="white-space: nowrap">{{ props.item.date | date }}</td>
-              <td class="text-xs-right">{{ props.item.price | price }}</td>
-              <td class="text-xs-right">{{ props.item.numberOfICOTokens | number }}</td>
-              <td class="text-xs-right">{{ props.item.totalNumberOfTokens | number }}</td>
-              <td class="text-xs-right">{{ props.item.totalSupply }}
-                <template v-if="props.item.totalSupply">%</template>
-              </td>
-              <td class="text-xs-right">{{ props.item.icoMarketCap | price }}</td>
-              <td class="text-xs-right">{{ cryptoMarketCap | price }}</td>
-              <td class="text-xs-center">{{ props.item.appPrototype ? 'Yes' : 'No' }}</td>
-              <td>
-                <v-flex style="white-space: nowrap">
-                  <v-icon size="16" color="warning"
-                          v-for="star in props.item.team" :key="'o' + star">
-                    star
-                  </v-icon>
-                  <v-icon size="16" color="blue-grey lighten-3"
-                          v-for="star in 4 - props.item.team" :key="'g' + star">
-                    star
-                  </v-icon>
-                </v-flex>
-              </td>
-              <td>
-                <v-flex style="white-space: nowrap">
-                  <v-icon size="16" color="warning"
-                          v-for="star in props.item.advisers" :key="'o' + star">star
-                  </v-icon>
-                  <v-icon size="16" color="blue-grey lighten-3"
-                          v-for="star in 2 - props.item.advisers" :key="'g' + star">star
-                  </v-icon>
-                </v-flex>
-              </td>
-              <td>
-                <v-flex style="white-space: nowrap">
-                  <v-icon size="16" color="warning"
-                          v-for="star in props.item.idea" :key="'o' + star">star
-                  </v-icon>
-                  <v-icon size="16" color="blue-grey lighten-3"
-                          v-for="star in 3 - props.item.idea" :key="'g' + star">star
-                  </v-icon>
-                </v-flex>
-              </td>
-              <td class="text-xs-right">{{ props.item.community | number }}</td>
-              <td>{{ props.item.type }}</td>
-              <td class="justify-center layout px-0">
-                <v-btn icon class="mx-0" @click="edit(props.item)" v-if="userIsCreator">
-                  <v-icon color="indigo">edit</v-icon>
-                </v-btn>
-                <v-btn icon class="mx-0" @click="confirmDelete(props.item)" v-if="userIsCreator">
-                  <v-icon color="error">delete</v-icon>
-                </v-btn>
-              </td>
-            </template>
-          </v-data-table>
+          <v-card>
+            <v-card-title>
+              My ICO’s
+              <v-spacer></v-spacer>
+              <v-text-field
+                v-model="search"
+                append-icon="search"
+                label="Search"
+                single-line
+                hide-details
+              />
+            </v-card-title>
+            <v-data-table
+              :headers="headers"
+              :items="icos"
+              :search="search">
+              <template slot="items" slot-scope="props">
+                <td>
+                  <router-link :to="`/icos/${props.item.id}`">
+                    {{ props.item.name }}
+                  </router-link>
+                </td>
+                <td class="text-xs-right">
+                  <template v-if="props.item.grade">
+                    <b>{{ props.item.grade }}%</b>
+                  </template>
+                </td>
+                <td style="white-space: nowrap">{{ props.item.date | date }}</td>
+                <td class="text-xs-right">{{ props.item.price | price }}</td>
+                <td class="text-xs-right">{{ props.item.numberOfICOTokens | number }}</td>
+                <td class="text-xs-right">{{ props.item.totalNumberOfTokens | number }}</td>
+                <td class="text-xs-right">{{ props.item.totalSupply || '0 %' }}
+                  <template v-if="props.item.totalSupply">%</template>
+                </td>
+                <td class="text-xs-right">{{ props.item.icoMarketCap | price }}</td>
+                <td class="text-xs-right">{{ cryptoMarketCap | price }}</td>
+                <td class="text-xs-center">{{ props.item.appPrototype ? 'Yes' : 'No' }}</td>
+                <td>
+                  <v-flex style="white-space: nowrap">
+                    <v-icon size="16" color="warning"
+                            v-for="star in props.item.team" :key="'o' + star">
+                      star
+                    </v-icon>
+                    <v-icon size="16" color="blue-grey lighten-3"
+                            v-for="star in 4 - props.item.team" :key="'g' + star">
+                      star
+                    </v-icon>
+                  </v-flex>
+                </td>
+                <td>
+                  <v-flex style="white-space: nowrap">
+                    <v-icon size="16" color="warning"
+                            v-for="star in props.item.advisers" :key="'o' + star">star
+                    </v-icon>
+                    <v-icon size="16" color="blue-grey lighten-3"
+                            v-for="star in 2 - props.item.advisers" :key="'g' + star">star
+                    </v-icon>
+                  </v-flex>
+                </td>
+                <td>
+                  <v-flex style="white-space: nowrap">
+                    <v-icon size="16" color="warning"
+                            v-for="star in props.item.idea" :key="'o' + star">star
+                    </v-icon>
+                    <v-icon size="16" color="blue-grey lighten-3"
+                            v-for="star in 3 - props.item.idea" :key="'g' + star">star
+                    </v-icon>
+                  </v-flex>
+                </td>
+                <td class="text-xs-right">{{ props.item.community | number }}</td>
+                <td>{{ props.item.type || '–' }}</td>
+                <td class="justify-center layout px-0">
+                  <v-btn icon class="mx-0" @click="edit(props.item)" v-if="userIsCreator">
+                    <v-icon color="indigo">edit</v-icon>
+                  </v-btn>
+                  <v-btn icon class="mx-0" @click="confirmDelete(props.item)" v-if="userIsCreator">
+                    <v-icon color="error">delete</v-icon>
+                  </v-btn>
+                </td>
+              </template>
+              <template slot="no-results" :value="true" color="error" icon="warning">
+                <v-layout align-center d-inline-flex>
+                  <v-flex class="mr-1">
+                    <v-icon>error</v-icon>
+                  </v-flex>
+                  <v-flex>
+                    Your search for <b class="yellow lighten-5 px-2">{{ search }}</b> found no results.
+                  </v-flex>
+                </v-layout>
+              </template>
+            </v-data-table>
+          </v-card>
         </v-flex>
       </v-layout>
     </template>
@@ -146,7 +168,8 @@
           {text: 'Type', value: 'type'},
           {text: 'Actions', value: 'name', sortable: false}
         ],
-        deletedIco: () => ({})
+        deletedIco: () => ({}),
+        search: ''
       }
     },
     watch: {
