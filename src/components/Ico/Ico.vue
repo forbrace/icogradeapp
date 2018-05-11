@@ -87,13 +87,13 @@
               <v-layout row wrap>
                 <v-flex sm4 xs12>
                   <div class="subheader blue-grey--text pa-0">
-                    URL
+                    Website
                   </div>
                 </v-flex>
                 <v-flex sm8 xs12>
                   <div class="subheader pa-0 black--text">
                     <a :href="ico.url" target="_blank">
-                      {{ ico.url }}
+                      {{ ico.domain }}
                     </a>
                   </div>
                 </v-flex>

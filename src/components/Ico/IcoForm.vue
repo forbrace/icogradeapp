@@ -178,6 +178,29 @@
       }
     },
     methods: {
+      extractHostname (url) {
+        let hostname
+        if (url.indexOf('://') > -1) {
+          hostname = url.split('/')[2]
+        } else {
+          hostname = url.split('/')[0]
+        }
+        hostname = hostname.split(':')[0]
+        hostname = hostname.split('?')[0]
+        return hostname
+      },
+      extractRootDomain (url) {
+        let domain = this.extractHostname(url)
+        let splitArr = domain.split('.')
+        let arrLen = splitArr.length
+        if (arrLen > 2) {
+          domain = splitArr[arrLen - 2] + '.' + splitArr[arrLen - 1]
+          if (splitArr[arrLen - 2].length === 2 && splitArr[arrLen - 1].length === 2) {
+            domain = splitArr[arrLen - 3] + '.' + domain
+          }
+        }
+        return domain
+      },
       calculateGrade () {
         let ico = Object.assign({}, this.scores)
         return calc(ico)
@@ -190,6 +213,7 @@
           return
         }
         const ico = Object.assign({}, this.ico)
+        ico.domain = this.extractRootDomain(this.ico.url)
         ico.date = (new Date()).toUTCString()
         ico.grade = this.grade
         if (this.icoId) ico.id = this.icoId

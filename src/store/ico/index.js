@@ -17,6 +17,7 @@ export default {
       })
       if (payload.name) ico.name = payload.name
       if (payload.url) ico.url = payload.url
+      if (payload.domain) ico.domain = payload.domain
       if (payload.grade) ico.grade = payload.grade
       if (payload.price) ico.price = payload.price
       if (payload.numberOfICOTokens) ico.numberOfICOTokens = payload.numberOfICOTokens
@@ -30,6 +31,7 @@ export default {
       if (payload.community) ico.community = payload.community
       if (payload.type) ico.type = payload.type
       if (payload.date) ico.date = payload.date
+      if (payload.inRate) ico.inRate = payload.inRate
     },
     deleteIco (state, payload) {
       const ico = state.loadedIcos.find(ico => {
@@ -53,6 +55,7 @@ export default {
               icos.push({
                 id: key,
                 name: obj[key].name,
+                domain: obj[key].domain,
                 url: obj[key].url,
                 grade: obj[key].grade,
                 price: obj[key].price,
@@ -67,7 +70,8 @@ export default {
                 community: obj[key].community,
                 type: obj[key].type,
                 date: obj[key].date,
-                creatorId: obj[key].creatorId
+                creatorId: obj[key].creatorId,
+                inRate: obj[key].inRate
               })
             }
             // icos.filter((ico) => ico.creatorId === getters.user.uid)
@@ -86,6 +90,7 @@ export default {
       commit('setLoading', true)
       const ico = {
         name: payload.name,
+        domain: payload.domain,
         grade: payload.grade,
         url: payload.url,
         price: payload.price,
@@ -100,7 +105,8 @@ export default {
         community: payload.community,
         type: payload.type,
         date: payload.date,
-        creatorId: getters.user.uid
+        creatorId: getters.user.uid,
+        inRate: payload.inRate || false
       }
       firebase.database().ref('icos').push(ico)
         .then(

@@ -41,9 +41,9 @@
                       <span class="display-3">{{ grade }}%</span>
                     </v-card-text>
                   </v-card>
-                  <v-flex>
-                    <span class="blue-grey--text">Crypto Market Cap</span> <b>{{ cryptoMarketCap | price }}</b>
-                  </v-flex>
+                  <div class="mb-3">
+                    <span class="blue-grey--text">Crypto Market Cap</span> <b>{{ cryptomarketcap | price }}</b>
+                  </div>
                 </v-flex>
               </v-layout>
 
@@ -74,21 +74,19 @@
 
 <script>
   import IcoForm from './IcoForm'
+  import cryptomarketcap from '../../mixins/cryptomarketcap'
 
   export default {
     name: 'edit-ico',
+    mixins: [cryptomarketcap],
     props: ['id'],
     components: {
       IcoForm
     },
     data () {
       return {
-        cryptoMarketCap: '',
         grade: 0
       }
-    },
-    created () {
-      this.getCryptoMarketCap()
     },
     computed: {
       ico () {
@@ -116,13 +114,6 @@
       }
     },
     methods: {
-      getCryptoMarketCap () {
-        this.$http.get('https://api.coinmarketcap.com/v1/global/').then(response => {
-          this.cryptoMarketCap = response.body.total_market_cap_usd
-        }, response => {
-          console.log(response)
-        })
-      },
       signin () {
         this.$store.dispatch('googleSignIn')
       }
@@ -134,8 +125,14 @@
   .grade {
     position: -webkit-sticky;
     position: sticky;
-    top: 68px;
+    top: 52px;
     align-self: start;
+    transition: all .1s ease-in-out;
+  }
+  @media (min-width: 960px) {
+    .grade {
+      top: 68px;
+    }
   }
 
   .custom-loader {

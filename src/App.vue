@@ -64,18 +64,18 @@
       <v-toolbar-items class="hidden-xs-only">
         <v-btn flat v-for="item in menuItems" :key="item.title"
                router :to="item.link" exact v-if="item.isShown">
-          <v-icon left>{{ item.icon }}</v-icon>
+          <v-icon class="mr-2">{{ item.icon }}</v-icon>
           {{ item.title }}
         </v-btn>
         <template v-if="userIsAuthenticated">
           <v-btn flat @click="signOut">
-            <v-icon left>exit_to_app</v-icon>
+            <v-icon class="mr-2">exit_to_app</v-icon>
             Sign Out
           </v-btn>
         </template>
         <template v-else>
           <v-btn flat @click="signIn">
-            <v-icon left>lock</v-icon>
+            <v-icon class="mr-2">lock</v-icon>
             Sign In
           </v-btn>
         </template>
@@ -84,7 +84,7 @@
     </v-toolbar>
     <v-content>
 
-      <v-container fluid v-if="error">
+      <v-container fluid grid-list-md v-if="error">
         <v-layout row>
           <v-flex xs12>
             <alert @dismiss="onDismiss" :text="error.message"/>
@@ -124,7 +124,7 @@
             {
               icon: 'add',
               title: 'New Grade',
-              link: '/',
+              link: '/create',
               isShown: true
             },
             {
@@ -132,6 +132,15 @@
               title: 'My ICO’s',
               link: '/icos',
               isShown: this.icos.length
+            }
+          ]
+        } else {
+          return [
+            {
+              icon: 'add',
+              title: 'New Grade',
+              link: '/create',
+              isShown: true
             }
           ]
         }

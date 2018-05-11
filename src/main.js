@@ -11,7 +11,6 @@ import Alert from './Shared/Alert'
 import NumberFilter from './filters/number'
 import PriceFilter from './filters/price'
 import VueAnalytics from 'vue-analytics'
-// import './stylus/main.styl'
 
 Vue.use(VueAnalytics, {id: 'UA-118784459-1'})
 Vue.use(VueResource)

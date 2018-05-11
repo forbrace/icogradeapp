@@ -7,8 +7,8 @@
     </v-layout>
   </v-container>
   <v-container fluid fill-height grid-list-md v-else>
-    <template v-if="icos.length && userIsCreator">
-      <v-layout v-if="userIsCreator">
+    <template v-if="icos.length">
+      <v-layout>
         <v-flex xs12>
 
           <v-dialog v-model="dialog" max-width="500px">
@@ -29,72 +29,28 @@
 
           <v-card>
             <v-card-title>
-              <div class="title">My ICO’s</div>
-              <v-spacer></v-spacer>
-              <v-text-field
-                v-model="search"
-                append-icon="search"
-                label="Search"
-                single-line
-                hide-details
-              />
+              <h3 class="title">{{icoName}} Grades</h3>
             </v-card-title>
             <v-data-table
               :headers="headers"
               :items="icos"
-              :rows-per-page-items="[10,20,50,{'text':'All','value':-1}]"
-              :search="search">
+              :rows-per-page-items="[10,20,50,{'text':'All','value':-1}]">
               <template slot="items" slot-scope="props">
-                <td>
-                  <template v-if="props.item.gradingCompleted">
-                    <v-checkbox
-                      v-model="props.item.gradingCompleted"
-                      disabled
-                      color="success"
-                      hide-details
-                    />
-                  </template>
-                  <template v-else>
-                    <v-checkbox
-                      v-model="props.item.inRate"
-                      @click="updateInRate(props.item)"
-                      color="indigo"
-                      hide-details
-                    />
-                  </template>
-                </td>
-                <!--<td>-->
-                  <!--<template v-if="props.item.gradingCompleted">-->
-                    <!--<v-tooltip v-model="props.item.show" top>-->
-                      <!--<v-icon slot="activator" color="success">check_circle</v-icon>-->
-                      <!--<span>Grading Completed</span>-->
-                    <!--</v-tooltip>-->
-                  <!--</template>-->
-                  <!--<template v-else>-->
-                    <!--<v-tooltip v-model="props.item.show" top>-->
-                      <!--<v-icon slot="activator" title="Grading Not Completed">help</v-icon>-->
-                      <!--<span>Grading Not Completed</span>-->
-                    <!--</v-tooltip>-->
-                  <!--</template>-->
-                <!--</td>-->
+                <td style="white-space: nowrap">{{ props.item.date | date }}</td>
                 <td>
                   <router-link :to="`/ico/${props.item.id}`">
                     {{ props.item.name }}
                   </router-link>
                 </td>
                 <td class="text-xs-right">
-                  <b>{{ props.item.grade || 0 }}%</b>
+                  <template v-if="props.item.grade">
+                    <b>{{ props.item.grade }}%</b>
+                  </template>
                 </td>
                 <td style="white-space: nowrap">
-                  <template v-if="props.item.url">
-                    <a :href="props.item.url" target="_blank">{{ props.item.domain }}</a>
-                    <v-icon size="10">open_in_new</v-icon>
-                  </template>
-                  <template v-else>
-                    –
-                  </template>
+                  <a :href="props.item.url" target="_blank">{{ props.item.domain }}</a>
+                  <v-icon size="10">open_in_new</v-icon>
                 </td>
-                <td style="white-space: nowrap">{{ props.item.date | date }}</td>
                 <td class="text-xs-right">{{ props.item.price | price }}</td>
                 <td class="text-xs-right">{{ props.item.numberOfICOTokens | number }}</td>
                 <td class="text-xs-right">{{ props.item.totalNumberOfTokens | number }}</td>
@@ -109,7 +65,8 @@
                     <v-icon size="16" color="warning"
                             v-for="star in props.item.team" :key="'o' + star">
                       star
-                    </v-icon><v-icon size="16" color="blue-grey lighten-3"
+                    </v-icon>
+                    <v-icon size="16" color="blue-grey lighten-3"
                             v-for="star in 4 - props.item.team" :key="'g' + star">
                       star
                     </v-icon>
@@ -119,7 +76,8 @@
                   <v-flex style="white-space: nowrap">
                     <v-icon size="16" color="warning"
                             v-for="star in props.item.advisers" :key="'o' + star">star
-                    </v-icon><v-icon size="16" color="blue-grey lighten-3"
+                    </v-icon>
+                    <v-icon size="16" color="blue-grey lighten-3"
                             v-for="star in 2 - props.item.advisers" :key="'g' + star">star
                     </v-icon>
                   </v-flex>
@@ -128,7 +86,8 @@
                   <v-flex style="white-space: nowrap">
                     <v-icon size="16" color="warning"
                             v-for="star in props.item.idea" :key="'o' + star">star
-                    </v-icon><v-icon size="16" color="blue-grey lighten-3"
+                    </v-icon>
+                    <v-icon size="16" color="blue-grey lighten-3"
                             v-for="star in 3 - props.item.idea" :key="'g' + star">star
                     </v-icon>
                   </v-flex>
@@ -136,12 +95,14 @@
                 <td class="text-xs-right">{{ props.item.community | number }}</td>
                 <td>{{ props.item.type || '–' }}</td>
                 <td class="justify-center layout px-0">
-                  <v-btn icon class="mx-0" @click="edit(props.item)" v-if="userIsCreator">
-                    <v-icon color="indigo">edit</v-icon>
-                  </v-btn>
-                  <v-btn icon class="mx-0" @click="confirmDelete(props.item)" v-if="userIsCreator">
-                    <v-icon color="error">delete</v-icon>
-                  </v-btn>
+                  <div v-if="userIsCreator">
+                    <v-btn icon class="mx-0" @click="edit(props.item)" v-if="userIsCreator">
+                      <v-icon color="indigo">edit</v-icon>
+                    </v-btn>
+                    <v-btn icon class="mx-0" @click="confirmDelete(props.item)" v-if="userIsCreator">
+                      <v-icon color="error">delete</v-icon>
+                    </v-btn>
+                  </div>
                 </td>
               </template>
               <template slot="no-results" :value="true" color="error" icon="warning">
@@ -159,45 +120,24 @@
         </v-flex>
       </v-layout>
     </template>
-    <template v-else>
-      <v-layout
-        justify-center
-        align-center>
-        <div>
-          <div v-if="userIsAuthenticated">
-            <v-btn to="/" color="primary" large>
-              <v-icon class="mr-2" size="16">add</v-icon>
-              New Grade
-            </v-btn>
-          </div>
-          <div v-else>
-            <v-btn @click="signin" color="primary" large>
-              <v-icon class="mr-2" size="16">lock</v-icon> 
-              Sign In
-            </v-btn>
-          </div>
-        </div>
-      </v-layout>
-    </template>
   </v-container>
 </template>
 
 <script>
   import cryptomarketcap from '../../mixins/cryptomarketcap'
-  
+
   export default {
-    name: 'List',
+    name: 'IcoGrades',
+    props: ['id', 'domain'],
     mixins: [cryptomarketcap],
     data () {
       return {
         dialog: false,
         headers: [
-          {text: 'Completed', value: 'inRate', align: 'center', sortable: false},
-          // {text: '', value: 'gradingCompleted', align: 'center'},
+          {text: 'Date', value: 'date'},
           {text: 'Name', value: 'name'},
           {text: 'ICO Grade, %', value: 'grade', align: 'right'},
           {text: 'Website', value: 'url', align: 'left'},
-          {text: 'Date', value: 'date'},
           {text: 'Price, USD', value: 'price', align: 'right'},
           {text: '# of tokens', value: 'numberOfICOTokens', align: 'right'},
           {text: 'Total # of tokens', value: 'totalNumberOfTokens', align: 'right'},
@@ -217,25 +157,20 @@
         show: false
       }
     },
-    watch: {
-      user (val, oldVal) {
-        !val && this.$router.push('/') // sign out redirect
-      }
-    },
-    mounted () {
-    },
     computed: {
       icos () {
         let gradedIcos = this.$store.getters.loadedIcos
         for (let ico of gradedIcos) {
           ico.gradingCompleted = !!(ico.name && ico.grade && ico.url && ico.price && ico.numberOfICOTokens && ico.totalNumberOfTokens && ico.totalSupply && ico.icoMarketCap && ico.team && ico.advisers && ico.idea && ico.community && ico.type)
         }
-        if (this.user) {
-          gradedIcos = gradedIcos.filter((ico) => {
-            return ico.creatorId === this.user.uid
-          })
-        }
-        return gradedIcos
+        return gradedIcos.filter((ico) => {
+          return ico.domain === this.domain
+        })
+      },
+      icoName () {
+        return this.icos.find((ico) => {
+          return ico.domain === this.domain
+        }).name
       },
       loading () {
         return this.$store.getters.loading
@@ -259,6 +194,30 @@
       edit (ico) {
         this.$router.push(`/ico/${ico.id}/edit`)
       },
+      extractHostname (url) {
+        let hostname
+        if (url.indexOf('://') > -1) {
+          hostname = url.split('/')[2]
+        } else {
+          hostname = url.split('/')[0]
+        }
+        hostname = hostname.split(':')[0]
+        hostname = hostname.split('?')[0]
+        // hostname = hostname.replace(/^(?:www\.)?/i, '')
+        return hostname
+      },
+      extractRootDomain (url) {
+        let domain = this.extractHostname(url)
+        let splitArr = domain.split('.')
+        let arrLen = splitArr.length
+        if (arrLen > 2) {
+          domain = splitArr[arrLen - 2] + '.' + splitArr[arrLen - 1]
+          if (splitArr[arrLen - 2].length === 2 && splitArr[arrLen - 1].length === 2) {
+            domain = splitArr[arrLen - 3] + '.' + domain
+          }
+        }
+        return domain
+      },
       confirmDelete (ico) {
         this.dialog = true
         this.deletedIco = ico
@@ -270,16 +229,8 @@
       close () {
         this.dialog = false
       },
-      inRateDisabled (ico) {
-        return !!(ico.name && ico.grade && ico.url && ico.price && ico.numberOfICOTokens && ico.totalNumberOfTokens && ico.totalSupply && ico.icoMarketCap && ico.team && ico.advisers && ico.idea && ico.community && ico.type)
-      },
       signin () {
         this.$store.dispatch('googleSignIn')
-      },
-      updateInRate (ico) {
-        ico.inRate = !ico.inRate
-        console.log(ico)
-        this.$store.dispatch('updateIco', ico)
       }
     }
   }
