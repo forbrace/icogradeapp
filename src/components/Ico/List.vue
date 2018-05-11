@@ -14,7 +14,7 @@
           <v-dialog v-model="dialog" max-width="500px">
             <v-card>
               <v-card-title>
-                <span class="headline">Delete {{deletedIco.name}}</span>
+                <span class="headline">Delete {{icoToDelete.name}}</span>
               </v-card-title>
               <v-card-text>
                 <span>You cannot undo this this action.</span>
@@ -22,7 +22,7 @@
               <v-card-actions>
                 <v-spacer/>
                 <v-btn color="blue darken-1" flat @click.native="close">Cancel</v-btn>
-                <v-btn color="red darken-1" flat @click.native="deleteIco(deletedIco)">Delete</v-btn>
+                <v-btn color="red darken-1" flat @click.native="deleteIco(icoToDelete)">Delete</v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>
@@ -58,7 +58,7 @@
                     <v-checkbox
                       v-model="props.item.inRate"
                       @click="updateInRate(props.item)"
-                      color="indigo"
+                      color="success"
                       hide-details
                     />
                   </template>
@@ -165,7 +165,7 @@
         align-center>
         <div>
           <div v-if="userIsAuthenticated">
-            <v-btn to="/" color="primary" large>
+            <v-btn to="/create" color="primary" large>
               <v-icon class="mr-2" size="16">add</v-icon>
               New Grade
             </v-btn>
@@ -212,13 +212,13 @@
           {text: 'Type', value: 'type'},
           {text: 'Actions', value: 'name', sortable: false}
         ],
-        deletedIco: () => ({}),
+        icoToDelete: () => ({}),
         search: '',
         show: false
       }
     },
     watch: {
-      user (val, oldVal) {
+      user (val) {
         !val && this.$router.push('/') // sign out redirect
       }
     },
@@ -228,7 +228,7 @@
       icos () {
         let gradedIcos = this.$store.getters.loadedIcos
         for (let ico of gradedIcos) {
-          ico.gradingCompleted = !!(ico.name && ico.grade && ico.url && ico.price && ico.numberOfICOTokens && ico.totalNumberOfTokens && ico.totalSupply && ico.icoMarketCap && ico.team && ico.advisers && ico.idea && ico.community && ico.type)
+          ico.gradingCompleted = this.isGradingCompleted(ico)
         }
         if (this.user) {
           gradedIcos = gradedIcos.filter((ico) => {
@@ -261,7 +261,7 @@
       },
       confirmDelete (ico) {
         this.dialog = true
-        this.deletedIco = ico
+        this.icoToDelete = ico
       },
       deleteIco (ico) {
         this.$store.dispatch('deleteIco', ico)
@@ -270,7 +270,7 @@
       close () {
         this.dialog = false
       },
-      inRateDisabled (ico) {
+      isGradingCompleted (ico) {
         return !!(ico.name && ico.grade && ico.url && ico.price && ico.numberOfICOTokens && ico.totalNumberOfTokens && ico.totalSupply && ico.icoMarketCap && ico.team && ico.advisers && ico.idea && ico.community && ico.type)
       },
       signin () {
@@ -278,7 +278,6 @@
       },
       updateInRate (ico) {
         ico.inRate = !ico.inRate
-        console.log(ico)
         this.$store.dispatch('updateIco', ico)
       }
     }

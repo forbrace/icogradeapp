@@ -8,7 +8,7 @@
   </v-container>
   <v-container fluid grid-list-md v-else>
     <v-layout wrap>
-      <v-flex lg3 md4 sm6 xs12 v-for="ico of everageGradedIcos" :key="ico.id">
+      <v-flex lg3 md4 sm6 xs12 v-for="ico of filteredIcos" :key="ico.id">
         <v-card>
           <v-card-title>
             <h3 class="headline mb-0">
@@ -41,6 +41,7 @@
 
 <script>
   import cryptomarketcap from '../mixins/cryptomarketcap'
+  import {eventBus} from '../main'
 
   export default {
     name: 'home',
@@ -51,13 +52,18 @@
         page: 1
       }
     },
+    created () {
+      eventBus.$on('search', (val) => {
+        this.search = val
+      })
+    },
     computed: {
       everageGradedIcos () {
         let gradedIcos = this.$store.getters.loadedIcos
         let arr1 = []
         let arr2 = []
         gradedIcos = gradedIcos.filter((ico) => {
-          return !!(ico.name && ico.grade && ico.url && ico.price && ico.numberOfICOTokens && ico.totalNumberOfTokens && ico.totalSupply && ico.icoMarketCap && ico.team && ico.advisers && ico.idea && ico.community && ico.type) || ico.inRate
+          return this.isGradingCompleted(ico) || ico.inRate
         })
         for (let ico of gradedIcos) {
           arr1.push({
@@ -70,6 +76,11 @@
         }
         arr2 = this.average(arr1)
         return arr2
+      },
+      filteredIcos () {
+        return this.everageGradedIcos.filter(item => {
+          return item.name.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+        })
       },
       loading () {
         return this.$store.getters.loading
@@ -102,13 +113,12 @@
         }
         return result
       },
+      isGradingCompleted (ico) {
+        return !!(ico.name && ico.grade && ico.url && ico.price && ico.numberOfICOTokens && ico.totalNumberOfTokens && ico.totalSupply && ico.icoMarketCap && ico.team && ico.advisers && ico.idea && ico.community && ico.type)
+      },
       paginate (page) {
         this.page = page
       }
     }
   }
 </script>
-
-<style scoped>
-
-</style>

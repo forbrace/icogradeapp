@@ -161,7 +161,7 @@
       icos () {
         let gradedIcos = this.$store.getters.loadedIcos
         for (let ico of gradedIcos) {
-          ico.gradingCompleted = !!(ico.name && ico.grade && ico.url && ico.price && ico.numberOfICOTokens && ico.totalNumberOfTokens && ico.totalSupply && ico.icoMarketCap && ico.team && ico.advisers && ico.idea && ico.community && ico.type)
+          ico.gradingCompleted = this.isGradingCompleted(ico)
         }
         return gradedIcos.filter((ico) => {
           return ico.domain === this.domain
@@ -228,6 +228,9 @@
       },
       close () {
         this.dialog = false
+      },
+      isGradingCompleted (ico) {
+        return !!(ico.name && ico.grade && ico.url && ico.price && ico.numberOfICOTokens && ico.totalNumberOfTokens && ico.totalSupply && ico.icoMarketCap && ico.team && ico.advisers && ico.idea && ico.community && ico.type)
       },
       signin () {
         this.$store.dispatch('googleSignIn')

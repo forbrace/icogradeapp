@@ -32,7 +32,6 @@
                     </v-card-text>
                   </v-card>
 
-
                 </v-flex>
                 <v-flex sm5 xs12 grade>
                   <v-card class="mb-3">
@@ -56,7 +55,7 @@
     <template v-else-if="!userIsCreator && userIsAuthenticated">
       <v-layout justify-center
                 align-center>
-        <v-btn to="/">
+        <v-btn to="/create">
           + New Grade
         </v-btn>
       </v-layout>
@@ -110,7 +109,7 @@
     },
     watch: {
       user (val) {
-        !val && this.$router.push('/') // sign out redirect
+        !val && this.$router.push('/')
       }
     },
     methods: {
@@ -120,59 +119,3 @@
     }
   }
 </script>
-
-<style scoped>
-  .grade {
-    position: -webkit-sticky;
-    position: sticky;
-    top: 52px;
-    align-self: start;
-    transition: all .1s ease-in-out;
-  }
-  @media (min-width: 960px) {
-    .grade {
-      top: 68px;
-    }
-  }
-
-  .custom-loader {
-    animation: loader 1s infinite;
-    display: flex;
-  }
-
-  @-moz-keyframes loader {
-    from {
-      transform: rotate(0);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-
-  @-webkit-keyframes loader {
-    from {
-      transform: rotate(0);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-
-  @-o-keyframes loader {
-    from {
-      transform: rotate(0);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-
-  @keyframes loader {
-    from {
-      transform: rotate(0);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-</style>

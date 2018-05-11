@@ -61,6 +61,9 @@
       </v-toolbar-title>
 
       <v-spacer></v-spacer>
+      <v-text-field prepend-icon="search" hide-details single-line class="hidden-sm-and-down mr-2"
+                    v-if="$route.path === '/'"
+                    v-model="search"/>
       <v-toolbar-items class="hidden-xs-only">
         <v-btn flat v-for="item in menuItems" :key="item.title"
                router :to="item.link" exact v-if="item.isShown">
@@ -92,6 +95,16 @@
         </v-layout>
       </v-container>
 
+      <v-container fluid grid-list-md class="hidden-md-and-up">
+        <v-layout row>
+          <v-flex xs12>
+            <v-text-field prepend-icon="search" hide-details single-line
+                          v-if="$route.path === '/'"
+                          v-model="search"></v-text-field>
+          </v-flex>
+        </v-layout>
+      </v-container>
+
       <router-view></router-view>
 
 
@@ -105,6 +118,8 @@
 </template>
 
 <script>
+  import {eventBus} from './main'
+
   export default {
     data: () => ({
       drawer: false,
@@ -112,10 +127,16 @@
       userName: '',
       userEmail: '',
       userFeedback: '',
-      feedbackAlertMessage: ''
+      feedbackAlertMessage: '',
+      search: ''
     }),
     props: {
       source: String
+    },
+    watch: {
+      search (val) {
+        eventBus.$emit('search', val)
+      }
     },
     computed: {
       menuItems () {

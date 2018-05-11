@@ -12,6 +12,8 @@ import NumberFilter from './filters/number'
 import PriceFilter from './filters/price'
 import VueAnalytics from 'vue-analytics'
 
+export const eventBus = new Vue({})
+
 Vue.use(VueAnalytics, {id: 'UA-118784459-1'})
 Vue.use(VueResource)
 

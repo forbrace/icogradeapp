@@ -5,3 +5,57 @@
   outline: 2px solid rgba(33, 150, 245, 0.2);
   outline-offset -2px;
 }
+  
+.grade {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 52px;
+  align-self: start;
+  transition: all .1s ease-in-out;
+}
+@media (min-width: 960px) {
+  .grade {
+    top: 68px;
+  }
+}
+
+.custom-loader {
+  animation: loader 1s infinite;
+  display: flex;
+}
+
+@-moz-keyframes loader {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes loader {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@-o-keyframes loader {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes loader {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

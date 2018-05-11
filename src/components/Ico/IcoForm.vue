@@ -154,7 +154,7 @@
     created () {
       if (this.icoId) {
         const ico = this.$store.getters.loadedIco(this.icoId)
-        Object.assign(this.ico, ico)
+        this.ico = ico
       }
     },
     watch: {
@@ -170,8 +170,7 @@
         return this.$store.getters.loading
       },
       scores () {
-        let ico = Object.assign({}, this.ico)
-        return score(ico)
+        return score(this.ico)
       },
       user () {
         return this.$store.getters.user
@@ -202,8 +201,7 @@
         return domain
       },
       calculateGrade () {
-        let ico = Object.assign({}, this.scores)
-        return calc(ico)
+        return calc(this.scores)
       },
       formIsValid () {
         return !!this.ico.name
@@ -212,7 +210,7 @@
         if (!this.formIsValid) {
           return
         }
-        const ico = Object.assign({}, this.ico)
+        const ico = this.ico
         ico.domain = this.extractRootDomain(this.ico.url)
         ico.date = (new Date()).toUTCString()
         ico.grade = this.grade

@@ -174,7 +174,7 @@
                 </v-flex>
               </v-layout>
             </template>
-            <template v-if="cryptoMarketCap">
+            <template v-if="cryptomarketcap">
               <v-divider class="my-0"></v-divider>
               <v-layout row wrap>
                 <v-flex sm4 xs12>
@@ -184,7 +184,7 @@
                 </v-flex>
                 <v-flex sm8 xs12>
                   <div class="subheader pa-0 black--text">
-                    {{ cryptoMarketCap | price }}
+                    {{ cryptomarketcap | price }}
                   </div>
                 </v-flex>
               </v-layout>
@@ -340,17 +340,16 @@
 </template>
 
 <script>
+  import cryptomarketcap from '../../mixins/cryptomarketcap'
+  
   export default {
     name: 'ico',
     props: ['id'],
+    mixins: [cryptomarketcap],
     data () {
       return {
-        dialog: false,
-        cryptoMarketCap: ''
+        dialog: false
       }
-    },
-    created () {
-      this.getCryptoMarketCap()
     },
     computed: {
       ico () {
@@ -370,15 +369,8 @@
       }
     },
     methods: {
-      getCryptoMarketCap () {
-        this.$http.get('https://api.coinmarketcap.com/v1/global/').then(response => {
-          this.cryptoMarketCap = response.body.total_market_cap_usd
-        }, response => {
-          console.log(response)
-        })
-      },
       edit () {
-        this.$router.push(`/edit/${this.id}`)
+        this.$router.push(`/ico/${this.id}/edit`)
       },
       deleteIco () {
         this.dialog = false
@@ -388,7 +380,3 @@
     }
   }
 </script>
-
-<style scoped>
-
-</style>
